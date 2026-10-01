@@ -4,12 +4,19 @@ using System.Text;
 
 namespace Shop_OOP_Lab2
 {
+    /// <summary>
+    /// Physical good that has a shelf life and may be subject to a super-charge fee.
+    /// Implements IDiscountable to indicate sale eligibility.
+    /// </summary>
     internal class PerishableGood : PhysicalGood, Interfaces.IDiscountable
     {
         private int shelfLifeDays;
 
+        /// <summary>Additional handling fee applied to perishable goods.</summary>
         public const decimal SuperChargeFee = 0.40m;
+        /// <summary>Remaining shelf life in days.</summary>
         public int ShelfLifeDays { get { return shelfLifeDays; } }
+        /// <summary>True when the remaining shelf life makes the item eligible for sale pricing.</summary>
         public bool IsOnSale()
         {
             if (shelfLifeDays <= 3)
@@ -50,7 +57,7 @@ namespace Shop_OOP_Lab2
 
         public override string Describe()
         {
-            return $"{base.Describe()}, {shelfLifeDays} days left";
+            return $"{Sku} {Name} ({Category()}), {WeightPounds} lb, {shelfLifeDays} days left";
         }
     }
 }

@@ -4,10 +4,14 @@ using System.Text;
 
 namespace Shop_OOP_Lab2
 {
+    /// <summary>
+    /// Represents durable physical goods that include a warranty period.
+    /// </summary>
     internal class DurableGood : PhysicalGood
     {
         private int warrantyMonths;
 
+        /// <summary>Warranty period in months.</summary>
         public int WarrantyMonths { get { return warrantyMonths; } }
 
         public DurableGood(string sku, string name, decimal unitPrice, int quantityOnHand, double weightPounds, int warrantyMonths)

@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Shop_OOP_Lab2
 {
+    /// <summary>
+    /// Represents a collection of StockItem objects and provides reporting and aggregate operations.
+    /// Responsible for adding/finding items and computing value/sales summaries.
+    /// </summary>
     internal class Shop : Interfaces.IReportable
     {
         public string name { get; private set; }
@@ -18,6 +22,10 @@ namespace Shop_OOP_Lab2
             this.items = new List<StockItem>();
         }
 
+        /// <summary>
+        /// Adds an item to the shop catalog if it is not null and its SKU is unique.
+        /// Returns true on success, false when the item is null or a duplicate SKU exists.
+        /// </summary>
         public bool Add(StockItem item)
         {
             if (item == null)
@@ -32,6 +40,9 @@ namespace Shop_OOP_Lab2
             return true;
         }
 
+        /// <summary>
+        /// Finds a StockItem by SKU or returns null when not found.
+        /// </summary>
         public StockItem Find(string sku)
         {
             if (items.Exists(i => i.Sku == sku) == true)
@@ -41,16 +52,23 @@ namespace Shop_OOP_Lab2
             return null;
         }
 
+        /// <summary>
+        /// Computes the total inventory value using each item's ExtendedValue.
+        /// </summary>
         public decimal TotalValue()
         {
-            decimal total = 0;
+            decimal total = 0.00m;
             foreach (StockItem item in items)
             {
-                total += item.UnitPrice * item.QuantityOnHand;
+                total += item.ExtendedValue();
             }
             return total;
         }
 
+        /// <summary>
+        /// Computes the hypothetical sales value if sale pricing were applied where eligible.
+        /// This is used for comparison with the total inventory value.
+        /// </summary>
         public decimal SalesValue()
         {
             decimal total = 0;
@@ -62,12 +80,15 @@ namespace Shop_OOP_Lab2
                 }
                 else
                 {
-                    total += item.UnitPrice * item.QuantityOnHand;
+                    total += item.ExtendedValue();
                 }
             }
             return total;
         }
 
+        /// <summary>
+        /// Counts how many items implement IDiscountable (useful for contract checks).
+        /// </summary>
         public int SignedCount()
         {
             int total = 0;
@@ -75,12 +96,15 @@ namespace Shop_OOP_Lab2
             {
                 if (item is Interfaces.IDiscountable discountableItem)
                 {
-                    total += item.QuantityOnHand;
+                    total += 1;
                 }
             }
             return total;
         }
 
+        /// <summary>
+        /// Counts items currently considered on sale according to IDiscountable.IsOnSale.
+        /// </summary>
         public int OnSaleCount()
         {
             int total = 0;
@@ -88,12 +112,15 @@ namespace Shop_OOP_Lab2
             {
                 if (item is Interfaces.IDiscountable discountableItem && discountableItem.IsOnSale() == true)
                 {
-                    total += item.QuantityOnHand;
+                    total += 1;
                 }
             }
             return total;
         }
 
+        /// <summary>
+        /// In-place sort of items by computed value (higher first). Stable ordering is not guaranteed.
+        /// </summary>
         public void SortByValue()
         {
             for (int i = 0; i < items.Count - 1; i++)
@@ -129,13 +156,35 @@ namespace Shop_OOP_Lab2
 
         public string ReportLine()
         {
-            return $"{Name}: {Count} items, ${TotalValue()} on hand";
+            // Format to align with StockItem.ReportLine columns:
+            // Sku(8) + Name(24) + Category(12) = 44 chars for left area
+            // Qty (6), then a space, then $ and value (9)
+            return string.Format("{0}: {1} items, ${2:N2} on hand", Name, Count, TotalValue());
         }
 
+        /// <summary>
+        /// Prints a fixed-width inventory report to the console including a header, item lines,
+        /// and summary totals. Formatting is deliberately fixed-width to produce tabular output.
+        /// </summary>
         public void PrintReport()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine($"  {Name}: {ReportLine()}");
+            Console.WriteLine(new string('=', 60));
+            Console.WriteLine($"  {Name.ToUpper()} : INVENTORY REPORT"); 
+            Console.WriteLine(new string('=', 60));
+            // Header uses the same fixed-width columns as StockItem.ReportLine
+            Console.WriteLine($"{"SKU",-8}{"Item",-23}{"Category",-12}{"Qty",6} {"$"}{"Value",9}");
+            Console.WriteLine(new string('-', 60));
+            foreach (StockItem item in items)
+            {
+                Console.WriteLine(item.ReportLine());
+            }
+            Console.WriteLine(new string('-', 60));
+            // Summary lines aligned to the same columns: label in left area, count in Qty column, $value in Value column
+            // Show only the record count in the Qty column; leave the $ value blank
+            Console.WriteLine("{0,-43}{1,6} {2,10}", "Records on file:", "", Count);
+            Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Total value on hand:", "", TotalValue());
+            Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Value if every sale price were taken:", "", SalesValue());
+            Console.WriteLine(new string('=', 60));
         }
     }
 }
