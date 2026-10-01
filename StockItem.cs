@@ -9,7 +9,7 @@ namespace Shop_OOP_Lab2
     /// Encapsulates common properties such as SKU, name, unit price and quantity,
     /// and maintains a history of StockMovement records.
     /// </summary>
-    public abstract class StockItem : Interfaces.IReportable
+    public abstract class StockItem : Interfaces.IReportable, IComparable<StockItem>
     {
         private string sku;
         private string name;
@@ -129,6 +129,12 @@ namespace Shop_OOP_Lab2
         public override string ToString()
         {
             return Describe();
+        }
+
+        public int CompareTo(StockItem other)
+        {
+            if (other == null) return 1; // Non-null is greater than null
+            return this.ExtendedValue().CompareTo(other.ExtendedValue());
         }
     }
 }

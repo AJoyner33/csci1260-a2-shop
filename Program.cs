@@ -100,6 +100,7 @@ namespace Shop_OOP_Lab2
             Console.WriteLine(String.Format(" {0,-46} {1,11}", "Movements recorded by CHZ07:", FarmCheddarWedge.MoveCount));
             if (FarmCheddarWedge.MoveCount > 0)
                 Console.WriteLine(FarmCheddarWedge.MovementLines());
+
         }
     }
 }

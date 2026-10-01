@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace Shop_OOP_Lab2
     /// Represents a collection of StockItem objects and provides reporting and aggregate operations.
     /// Responsible for adding/finding items and computing value/sales summaries.
     /// </summary>
-    internal class Shop : Interfaces.IReportable
+    internal class Shop : Interfaces.IReportable, IEnumerable<StockItem>
     {
         public string name { get; private set; }
         private List<StockItem> items;
@@ -154,6 +155,10 @@ namespace Shop_OOP_Lab2
             return valueOf(a) > valueOf(b);
         }
 
+        public IEnumerator<StockItem> GetEnumerator() => items.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         /// <summary>
         /// A short one-line summary used when opening the catalog.
         /// Formatted so numeric columns align with the detailed report output.
@@ -178,10 +183,7 @@ namespace Shop_OOP_Lab2
             // Header uses the same fixed-width columns as StockItem.ReportLine
             Console.WriteLine($"{"SKU",-8}{"Item",-23}{"Category",-12}{"Qty",6} {"$"}{"Value",9}");
             Console.WriteLine(new string('-', 60));
-            foreach (StockItem item in items)
-            {
-                Console.WriteLine(item.ReportLine());
-            }
+            foreach (var it in items) Console.WriteLine(it.ReportLine());
             Console.WriteLine(new string('-', 60));
             // Summary lines aligned to the same columns: label in left area, count in Qty column, $value in Value column
             // Show only the record count in the Qty column; leave the $ value blank
@@ -189,6 +191,11 @@ namespace Shop_OOP_Lab2
             Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Total value on hand:", "", TotalValue());
             Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Value if every sale price were taken:", "", SalesValue());
             Console.WriteLine(new string('=', 60));
+
+
+
         }
+
+
     }
 }
