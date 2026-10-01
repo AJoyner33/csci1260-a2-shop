@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 
 namespace Shop_OOP_Lab2
 {
@@ -81,7 +80,11 @@ namespace Shop_OOP_Lab2
             return true;
         }
 
-        public bool Release(int count) //why isn
+        /// <summary>
+        /// Decrease the on-hand quantity and record a Released movement. Returns false for invalid counts
+        /// (non-positive or greater than available quantity).
+        /// </summary>
+        public bool Release(int count)
         {
             if (count <= 0 || count > quantityOnHand)
             {
@@ -119,7 +122,7 @@ namespace Shop_OOP_Lab2
         public string ReportLine()
         {
             var value = ExtendedValue();
-        // Qty then a single space, then a dollar sign column, then the value right-aligned.
+            // Qty then a single space, then a dollar sign column, then the value right-aligned.
             return $"{Sku,-8}{Name,-23}{Category(),-12}{QuantityOnHand,6} ${value,9:0.00}";
         }
 

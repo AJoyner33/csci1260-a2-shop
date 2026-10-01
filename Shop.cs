@@ -154,10 +154,14 @@ namespace Shop_OOP_Lab2
             return valueOf(a) > valueOf(b);
         }
 
+        /// <summary>
+        /// A short one-line summary used when opening the catalog.
+        /// Formatted so numeric columns align with the detailed report output.
+        /// </summary>
         public string ReportLine()
         {
             // Format to align with StockItem.ReportLine columns:
-            // Sku(8) + Name(24) + Category(12) = 44 chars for left area
+            // Sku(8) + Name(23) + Category(12) = 43 chars for left area
             // Qty (6), then a space, then $ and value (9)
             return string.Format("{0}: {1} items, ${2:N2} on hand", Name, Count, TotalValue());
         }
@@ -181,7 +185,7 @@ namespace Shop_OOP_Lab2
             Console.WriteLine(new string('-', 60));
             // Summary lines aligned to the same columns: label in left area, count in Qty column, $value in Value column
             // Show only the record count in the Qty column; leave the $ value blank
-            Console.WriteLine("{0,-43}{1,6} {2,10}", "Records on file:", "", Count);
+            Console.WriteLine("{0,-43}{1,6} {2,10}", "Records on file:", Count, "");
             Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Total value on hand:", "", TotalValue());
             Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Value if every sale price were taken:", "", SalesValue());
             Console.WriteLine(new string('=', 60));

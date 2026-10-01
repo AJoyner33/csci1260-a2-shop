@@ -44,11 +44,15 @@ namespace Shop_OOP_Lab2
             return 0m;
         }
 
+        /// <summary>
+        /// Returns the discounted sale price for service items when applicable.
+        /// </summary>
         public decimal SalePrice()
         {
             if (IsOnSale())
             {
-                return UnitPrice * 0.85m; // 15% discount
+                // Apply a 15% discount when the service is on sale
+                return UnitPrice * 0.85m;
             }
             return UnitPrice;
         }

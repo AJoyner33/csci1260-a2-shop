@@ -11,12 +11,9 @@ namespace Shop_OOP_Lab2
         {
             Shop RiverCitySupply = new Shop("River City Supply");
 
-
-            
-
             Console.Write($"Opening catalog:  {RiverCitySupply.ReportLine()}");
-            Console.WriteLine("");
-            Console.WriteLine("");
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Loading five records...");
 
             PerishableGood WildflowerHoney = new PerishableGood("HON01", "Wildflower honey", 8.00m, 12, 1.5, 2);
@@ -40,10 +37,8 @@ namespace Shop_OOP_Lab2
                 Console.WriteLine("     REJECTED: duplicate SKU HON01");
             }
 
-
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("Recording four movements...");
-
 
             WildflowerHoney.Recieve(6);
             CastIronKettle.Release(2);
@@ -62,26 +57,37 @@ namespace Shop_OOP_Lab2
                 Console.WriteLine("     REJECTED: receive of -5 into CHZ07");
             }
 
+            StockItem kettle02 = RiverCitySupply.Find("KTL11");
+            if (kettle02 != null && kettle02.QuantityOnHand < 2)
+            {
+                Console.WriteLine("     REJECTED: release of 2 from KTL11");
+            }
 
-            Console.WriteLine("");
+            StockItem honey = RiverCitySupply.Find("HON01");
+            if (honey != null && !honey.Recieve(6))
+            {
+                Console.WriteLine("     REJECTED: receive of 6 into HON01");
+            }
+
+            Console.WriteLine();
             Console.WriteLine("Records accepted: {0}", RiverCitySupply.Count);
             Console.WriteLine("Movements accepted: {0}", WildflowerHoney.MoveCount + CastIronKettle.MoveCount + FarmCheddarWedge.MoveCount);
 
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("Top record: {0}", FarmCheddarWedge.ToString());
-            Console.WriteLine("");
+            Console.WriteLine();
 
             RiverCitySupply.SortByValue();
 
             RiverCitySupply.PrintReport();
 
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("Contract check");
             Console.WriteLine("{0,-43}{1,6} {2,10:0}", "Records signing IDiscountable", "", RiverCitySupply.SignedCount());
             Console.WriteLine("{0,-43}{1,6} {2,10:0}", "Records on sale right now:", "", RiverCitySupply.OnSaleCount());
             Console.WriteLine("{0,-43}{1,6} ${2,9:0.00}", "Difference between the two totals:", "", RiverCitySupply.TotalValue() - RiverCitySupply.SalesValue());
 
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("Composition check");
             Console.WriteLine(String.Format(" {0,-46} {1,11}","Movements recorded by HON01:", WildflowerHoney.MoveCount));
             if (WildflowerHoney.MoveCount > 0)
@@ -89,12 +95,11 @@ namespace Shop_OOP_Lab2
 
             Console.WriteLine(String.Format(" {0,-46} {1,11}", "Movements recorded by KTL11:", CastIronKettle.MoveCount));
             if (CastIronKettle.MoveCount > 0)
-                Console.WriteLine(CastIronKettle.MovementLines()); //why is release 2 recorded as a negative mo
+                Console.WriteLine(CastIronKettle.MovementLines());
 
             Console.WriteLine(String.Format(" {0,-46} {1,11}", "Movements recorded by CHZ07:", FarmCheddarWedge.MoveCount));
             if (FarmCheddarWedge.MoveCount > 0)
                 Console.WriteLine(FarmCheddarWedge.MovementLines());
-
         }
     }
 }

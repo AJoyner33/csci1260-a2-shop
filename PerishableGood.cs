@@ -46,18 +46,22 @@ namespace Shop_OOP_Lab2
             return ShippingCost() + SuperChargeFee;
         }
 
+        /// <summary>
+        /// Returns the sale price when the item is on sale; otherwise the regular unit price.
+        /// </summary>
         public decimal SalePrice()
         {
             if (IsOnSale())
             {
-                return UnitPrice * 0.70m; // 30% discount
+                // Apply a 30% discount when the item is on sale
+                return UnitPrice * 0.70m;
             }
             return UnitPrice;
         }
 
         public override string Describe()
         {
-            return $"{Sku} {Name} ({Category()}), {WeightPounds} lb, {shelfLifeDays} days left";
+            return $"{base.Describe()}, {shelfLifeDays} days left";
         }
     }
 }

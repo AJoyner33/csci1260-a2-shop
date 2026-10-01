@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Shop_OOP_Lab2
 {
+    /// <summary>
+    /// Represents a single inventory movement (receive or release) for a StockItem.
+    /// </summary>
     internal class StockMovement
     {
-        /// <summary>
-        /// Represents a single inventory movement (receive or release) for a StockItem.
-        /// </summary>
         private int seq;
         private string kind;
         private int count;
